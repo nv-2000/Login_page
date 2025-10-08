@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 5%;
+            background-color:azure;
+        }
+        .container{
+            height: 300px;
+            width: 25%;
+             max-width: 420px; 
+            background-color:white;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            padding: 40px;
+            box-sizing: content-box;
+            border-radius: 20px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+             gap: 12px;
+        }
+         .f_cont {
+            width: 100%;
+            align-self: stretch;     /* override parent's align-items:center */
+        }
+        /* Make the form a vertical flex container and left-align form children */
+        .f_cont form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* left-align labels/inputs */
+            gap: 8px;
+            width: 100%;
+        }
+        .f_cont label { display: block; 
+            font-weight: 600;
+        }
+        .f_cont input { width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc; 
+            border-radius: 6px; 
+            
+            }
+        .f_cont button{
+            width: 70%;
+            height: 25px;
+            align-self: center;
+            font-size: 15px;
+            background-color: rgb(21, 173, 233);
+        }
+        .msg1,.msg2{
+            height: 20px;
+            width: 100%;
+        }
+        .message {
+             font-size: 20px; 
+             color: #b00; 
+             display:none; 
+         }
+        .success { 
+            color: green; 
+        }
+        .font{
+            font-size:15px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>Form Event</h1>
+    <div class='container'>
+        <h2 >Login Form</h2>
+        <div class="f_cont"> 
+           <form id="loginForm">
+        <label for="user" class="font">Username :</label>
+        <input id="user" type="text" placeholder="Enter Username">
+        <div id="msg1" class="message"></div>
+
+        <label for="pass" class="font">Password :</label>
+        <input id="pass" type="password" placeholder="Enter Password">
+        <div id="msg2" class="message"></div>
+
+        <button type="submit">Login</button>
+      </form>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        
+       $(document).ready(function() {
+  let userValid = false;
+  let passValid = false;
+
+  // Username blur validation with fade
+  $("#user").on("blur", function() {
+    if ($(this).val().trim().length < 3) {
+      $("#msg1").hide().removeClass("success")
+                .text("Username must be atleast three characters!!")
+                .fadeIn(300);
+      userValid = false;
+    } else {
+      $("#msg1").hide().addClass("success")
+                .text("Username looks good!!")
+                .fadeIn(300);
+      userValid = true;
+    }
+  });
+
+  // Password live validation with fade
+  $("#pass").on("input", function() {
+    if ($(this).val().length < 6) {
+      $("#msg2").hide().removeClass("success")
+                .text("Password too short!!")
+                .fadeIn(300);
+      passValid = false;
+    } else {
+      $("#msg2").hide().addClass("success")
+                .text("Strong password!!")
+                .fadeIn(300);
+      passValid = true;
+    }
+  });
+
+  // Form submit with validation
+  $("#loginForm").on("submit", function(e) {
+    e.preventDefault();
+
+    // Validate again before submit
+    if ($("#user").val().trim().length < 3) {
+      $("#msg1").hide().removeClass("success")
+                .text("Username must be atleast three characters!!")
+                .fadeIn(300);
+      userValid = false;
+    }
+    if ($("#pass").val().length < 6) {
+      $("#msg2").hide().removeClass("success")
+                .text("Password too short!!")
+                .fadeIn(300);
+      passValid = false;
+    }
+
+    if (userValid && passValid) {
+      alert("Login successful!");
+    } else {
+      alert("Please enter valid details");
+    }
+  });
+});
+    </script> 
+</body>
+</html>
